@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-header">Edit Permission</div>
                     <div class="card-body">
-                        <a href="{{ url('/admin/permissions') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="{{ route('permissions.index') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <br />
                         <br />
 
@@ -23,7 +23,7 @@
 
                         {!! Form::model($permission, [
                             'method' => 'PATCH',
-                            'url' => ['/admin/permissions', $permission->id],
+                            'url' => route('permissions.update', $permission->id),
                             'class' => 'form-horizontal'
                         ]) !!}
 

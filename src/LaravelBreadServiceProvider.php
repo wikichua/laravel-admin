@@ -1,24 +1,13 @@
 <?php
 
-namespace Appzcoder\LaravelAdmin;
+namespace Wikichua\LaravelBread;
 
 use File;
 use Illuminate\Support\ServiceProvider;
 
-class LaravelAdminServiceProvider extends ServiceProvider
+class LaravelBreadServiceProvider extends ServiceProvider
 {
-    /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
     protected $defer = false;
-
-    /**
-     * Perform post-registration booting of services.
-     *
-     * @return void
-     */
     public function boot(\Illuminate\Routing\Router $router)
     {
         $this->publishes([
@@ -46,16 +35,13 @@ class LaravelAdminServiceProvider extends ServiceProvider
         ]);
 
         $this->publishes([
-            __DIR__ . '/views' => base_path('resources/views/vendor/laravel-admin'),
+            __DIR__ . '/views' => base_path('resources/views/vendor/laravel-bread'),
         ], 'views');
 
-        $this->loadViewsFrom(__DIR__ . '/views', 'laravel-admin');
+        $this->loadViewsFrom(__DIR__ . '/views', 'laravel-bread');
 
-        $menus = [];
-        if (File::exists(base_path('resources/laravel-admin/menus.json'))) {
-            $menus = json_decode(File::get(base_path('resources/laravel-admin/menus.json')));
-            view()->share('laravelAdminMenus', $menus);
-        }
+        $menus = json_decode(json_encode(config('menus')));
+        view()->share('laravelAdminMenus', $menus);
     }
 
     /**

@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-header">Create New User</div>
                     <div class="card-body">
-                        <a href="{{ url('/admin/users') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="{{ route('users.index') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <br />
                         <br />
 
@@ -21,7 +21,7 @@
                             </ul>
                         @endif
 
-                        {!! Form::open(['url' => '/admin/users', 'class' => 'form-horizontal']) !!}
+                        {!! Form::open(['url' => route('users.store'), 'class' => 'form-horizontal']) !!}
 
                         @include ('admin.users.form', ['formMode' => 'create'])
 

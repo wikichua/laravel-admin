@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-header">Create New Setting</div>
                     <div class="card-body">
-                        <a href="{{ url('/admin/settings') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="{{ route('settings.index') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <br />
                         <br />
 
@@ -21,7 +21,7 @@
                             </ul>
                         @endif
 
-                        {!! Form::open(['url' => '/admin/settings', 'class' => 'form-horizontal', 'files' => true]) !!}
+                        {!! Form::open(['url' => route('settings.store'), 'class' => 'form-horizontal', 'files' => true]) !!}
 
                         @include ('admin.settings.form', ['formMode' => 'create'])
 

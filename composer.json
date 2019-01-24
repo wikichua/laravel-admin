@@ -1,18 +1,19 @@
 {
-    "name": "appzcoder/laravel-admin",
+    "name": "wikichua/laravel-bread",
     "license": "MIT",
-    "description": "Laravel Admin Panel",
+    "description": "Laravel Bread",
     "keywords": [
         "laravel",
         "admin",
         "laravel admin",
-        "laravel admin panel"
+        "laravel admin panel",
+        "bread",
+        "crud"
     ],
     "authors": [
         {
-            "name": "Sohel Amin",
-            "email": "sohelamincse@gmail.com",
-            "homepage": "http://www.appzcoder.com"
+            "name": "Wiki Chua",
+            "email": "wikichua@gmail.com"
         }
     ],
     "require": {
@@ -24,7 +25,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Appzcoder\\LaravelAdmin\\": "src/"
+            "Wikichua\\LaravelBread\\": "src/"
         },
         "files": [
             "src/helpers.php"
@@ -33,7 +34,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Appzcoder\\LaravelAdmin\\LaravelAdminServiceProvider"
+                "Wikichua\\LaravelBread\\LaravelBreadServiceProvider"
             ]
         }
     }

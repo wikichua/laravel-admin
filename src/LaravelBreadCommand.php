@@ -1,42 +1,19 @@
 <?php
 
-namespace Appzcoder\LaravelAdmin;
+namespace Wikichua\LaravelBread;
 
 use File;
 use Illuminate\Console\Command;
 use Symfony\Component\Process\Process;
 
-class LaravelAdminCommand extends Command
+class LaravelBreadCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'laravel-admin:install';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Install the Laravel Admin.';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
+    protected $signature = 'bread:install';
+    protected $description = 'Install the Laravel Bread.';
     public function __construct()
     {
         parent::__construct();
     }
-
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
     public function handle()
     {
         try {
@@ -53,7 +30,7 @@ class LaravelAdminCommand extends Command
 
         $this->info("Publishing the assets");
         $this->call('vendor:publish', ['--provider' => 'Appzcoder\CrudGenerator\CrudGeneratorServiceProvider', '--force' => true]);
-        $this->call('vendor:publish', ['--provider' => 'Appzcoder\LaravelAdmin\LaravelAdminServiceProvider', '--force' => true]);
+        $this->call('vendor:publish', ['--provider' => 'Wikichua\LaravelBread\LaravelBreadServiceProvider', '--force' => true]);
         $this->call('vendor:publish', ['--provider' => 'Spatie\Activitylog\ActivitylogServiceProvider', '--tag' => 'migrations']);
 
         $this->info("Dumping the composer autoload");
@@ -71,18 +48,18 @@ class LaravelAdminCommand extends Command
 
         $routes =
             <<<EOD
-Route::get('admin', 'Admin\\AdminController@index');
-Route::resource('admin/roles', 'Admin\\RolesController');
-Route::resource('admin/permissions', 'Admin\\PermissionsController');
-Route::resource('admin/users', 'Admin\\UsersController');
-Route::resource('admin/pages', 'Admin\\PagesController');
-Route::resource('admin/activitylogs', 'Admin\\ActivityLogsController')->only([
-    'index', 'show', 'destroy'
-]);
-Route::resource('admin/settings', 'Admin\\SettingsController');
-Route::get('admin/generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@getGenerator']);
-Route::post('admin/generator', ['uses' => '\Appzcoder\LaravelAdmin\Controllers\ProcessController@postGenerator']);
-
+Route::group(['namespace' => 'Admin','prefix' => 'admin', 'middleware' => ['auth', 'roles','can:browse-admin'], 'roles' => 'admin'], function () {
+    Route::get('/', 'AdminController@index');
+    Route::resource('/roles', 'RolesController');
+    Route::resource('/permissions', 'PermissionsController');
+    Route::resource('/users', 'UsersController');
+    Route::resource('/activitylogs', 'ActivityLogsController')->only([
+        'index', 'show', 'destroy'
+    ]);
+    Route::resource('/settings', 'SettingsController');\
+    Route::get('/generator', ['as' => 'generator.get','uses' => '\Wikichua\LaravelBread\Controllers\BreadController@getGenerator']);
+    Route::post('/generator', ['as' => 'generator.post','uses' => '\Wikichua\LaravelBread\Controllers\BreadController@postGenerator']);
+});
 EOD;
 
         File::append($routeFile, "\n" . $routes);
@@ -91,6 +68,8 @@ EOD;
         $contents = File::get(__DIR__ . '/../publish/Providers/AuthServiceProvider.php');
         File::put(app_path('Providers/AuthServiceProvider.php'), $contents);
 
-        $this->info("Successfully installed Laravel Admin!");
+        $this->info("Add this in your config/app.php");
+        $this->info("App\Providers\LaravelBreadServiceProvider::class");
+        $this->info("Successfully installed Laravel Bread!");
     }
 }

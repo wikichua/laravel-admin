@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-header">Edit Setting #{{ $setting->id }}</div>
                     <div class="card-body">
-                        <a href="{{ url('/admin/settings') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="{{ route('settings.index') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <br />
                         <br />
 
@@ -23,7 +23,7 @@
 
                         {!! Form::model($setting, [
                             'method' => 'PATCH',
-                            'url' => ['/admin/settings', $setting->id],
+                            'url' => route('settings.update', $setting->id),
                             'class' => 'form-horizontal',
                             'files' => true
                         ]) !!}

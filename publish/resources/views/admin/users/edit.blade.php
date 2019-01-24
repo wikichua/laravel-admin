@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-header">Edit User</div>
                     <div class="card-body">
-                        <a href="{{ url('/admin/users') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        <a href="{{ route('users.index') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
                         <br />
                         <br />
 
@@ -23,7 +23,7 @@
 
                         {!! Form::model($user, [
                             'method' => 'PATCH',
-                            'url' => ['/admin/users', $user->id],
+                            'url' => route('users.update',$user->id),
                             'class' => 'form-horizontal'
                         ]) !!}
 

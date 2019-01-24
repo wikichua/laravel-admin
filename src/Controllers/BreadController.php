@@ -1,6 +1,6 @@
 <?php
 
-namespace Appzcoder\LaravelAdmin\Controllers;
+namespace Wikichua\LaravelBread\Controllers;
 
 use App\Http\Controllers\Controller;
 use Artisan;
@@ -9,25 +9,12 @@ use Illuminate\Http\Request;
 use Response;
 use View;
 
-class ProcessController extends Controller
+class BreadController extends Controller
 {
-    /**
-     * Display generator.
-     *
-     * @return Response
-     */
     public function getGenerator()
     {
-        return view('laravel-admin::generator');
+        return view('laravel-bread::generator');
     }
-
-    /**
-     * Process generator.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return Response
-     */
     public function postGenerator(Request $request)
     {
         $commandArg = [];
@@ -86,31 +73,31 @@ class ProcessController extends Controller
             $commandArg['--soft-deletes'] = $request->soft_deletes;
         }
 
-        try {
-            Artisan::call('crud:generate', $commandArg);
+        // try {
+        //     Artisan::call('crud:generate', $commandArg);
 
-            $menus = json_decode(File::get(base_path('resources/laravel-admin/menus.json')));
+        //     $menus = json_decode(File::get(base_path('resources/laravel-admin/menus.json')));
 
-            $name = $commandArg['name'];
-            $routeName = ($commandArg['--route-group']) ? $commandArg['--route-group'] . '/' . snake_case($name, '-') : snake_case($name, '-');
+        //     $name = $commandArg['name'];
+        //     $routeName = ($commandArg['--route-group']) ? $commandArg['--route-group'] . '/' . snake_case($name, '-') : snake_case($name, '-');
 
-            $menus->menus = array_map(function ($menu) use ($name, $routeName) {
-                if ($menu->section == 'Resources') {
-                    array_push($menu->items, (object) [
-                        'title' => $name,
-                        'url' => '/' . $routeName,
-                    ]);
-                }
+        //     $menus->menus = array_map(function ($menu) use ($name, $routeName) {
+        //         if ($menu->section == 'Resources') {
+        //             array_push($menu->items, (object) [
+        //                 'title' => $name,
+        //                 'url' => '/' . $routeName,
+        //             ]);
+        //         }
 
-                return $menu;
-            }, $menus->menus);
+        //         return $menu;
+        //     }, $menus->menus);
 
-            File::put(base_path('resources/laravel-admin/menus.json'), json_encode($menus));
+        //     File::put(base_path('resources/laravel-admin/menus.json'), json_encode($menus));
 
-            Artisan::call('migrate');
-        } catch (\Exception $e) {
-            return Response::make($e->getMessage(), 500);
-        }
+        //     Artisan::call('migrate');
+        // } catch (\Exception $e) {
+        //     return Response::make($e->getMessage(), 500);
+        // }
 
         return redirect('admin/generator')->with('flash_message', 'Your CRUD has been generated. See on the menu.');
     }

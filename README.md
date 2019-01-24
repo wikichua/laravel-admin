@@ -1,4 +1,4 @@
-# Laravel Admin Panel
+# Laravel Bread
 An admin panel for managing users, roles, permissions & crud.
 
 ### Requirements
