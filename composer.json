@@ -1,0 +1,41 @@
+{
+    "name": "wikichua/laravel-bread",
+    "license": "MIT",
+    "description": "Laravel Bread",
+    "keywords": [
+        "laravel",
+        "admin",
+        "laravel admin",
+        "laravel admin panel",
+        "bread",
+        "crud"
+    ],
+    "authors": [
+        {
+            "name": "Wiki Chua",
+            "email": "wikichua@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "illuminate/support": "^5.1",
+        "appzcoder/crud-generator": "^3.0",
+        "laravelcollective/html": "~5.1",
+        "spatie/laravel-activitylog": "^2.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Wikichua\\LaravelBread\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Wikichua\\LaravelBread\\LaravelBreadServiceProvider"
+            ]
+        }
+    }
+}
