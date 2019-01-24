@@ -16,12 +16,12 @@ An admin panel for managing users, roles, permissions & crud.
 
 1. Run
     ```
-    composer require appzcoder/laravel-admin
+    composer require wikichua/laravel-bread
     ```
 
 2. Install the admin package.
     ```
-    php artisan laravel-admin:install
+    php artisan bread:install
     ```
     > Service provider will be discovered automatically.
 3. Make sure your user model's has a ```HasRoles``` trait **app/User.php**.
