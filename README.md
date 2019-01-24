@@ -91,10 +91,6 @@ For activity log please read `spatie/laravel-activitylog` [docs](https://docs.sp
 
 ![settings](https://user-images.githubusercontent.com/1708683/43679408-67b724d0-9846-11e8-8eb0-49e04c449ee3.png)
 
-## Author
-
-[Sohel Amin](http://www.sohelamin.com) :email: [Email Me](mailto:sohelamincse@gmail.com)
-
 ## License
 
 This project is licensed under the MIT License - see the [License File](LICENSE) for details
