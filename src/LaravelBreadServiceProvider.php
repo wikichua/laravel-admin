@@ -52,9 +52,9 @@ class LaravelBreadServiceProvider extends ServiceProvider
     public function register()
     {
         $this->commands(
-            'Appzcoder\LaravelAdmin\LaravelAdminCommand'
+            'Wikichua\LaravelBread\LaravelBreadCommand'
         );
 
-        $this->app->bind('Setting', \Appzcoder\LaravelAdmin\Setting::class);
+        $this->app->bind('Setting', \Wikichua\LaravelBread\Setting::class);
     }
 }
