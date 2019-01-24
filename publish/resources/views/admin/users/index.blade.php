@@ -9,35 +9,18 @@
                 <div class="card">
                     <div class="card-header">Users</div>
                     <div class="card-body">
-                        <a href="{{ route('users.create') }}" class="btn btn-success btn-sm" title="Add New User">
-                            <i class="fa fa-plus" aria-hidden="true"></i> Add New
-                        </a>
-
-                        {!! Form::open(['method' => 'GET', 'url' => route('users.index'), 'class' => 'form-inline my-2 my-lg-0 float-right', 'role' => 'search'])  !!}
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="search" placeholder="Search...">
-                            <span class="input-group-append">
-                                <button class="btn btn-secondary" type="submit">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                        {!! Form::close() !!}
-
-                        <br/>
-                        <br/>
                         <div class="table-responsive">
-                            <table class="table">
+                            <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%" id="mainTable">
                                 <thead>
                                     <tr>
-                                        <th>ID</th><th>Name</th><th>Email</th><th>Actions</th>
+                                        <th>ID</th><th>Name</th><th>Email</th><th><a href="{{ route('users.create') }}" class="btn btn-success btn-sm" title="Add New User"><i class="fa fa-plus" aria-hidden="true"></i> Add New</a></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($users as $item)
+                                {{-- @foreach($users as $item)
                                     <tr>
                                         <td>{{ $item->id }}</td>
-                                        <td><a href="{{ route('users.index', $item->id) }}">{{ $item->name }}</a></td><td>{{ $item->email }}</td>
+                                        <td><a href="{{ route('users.show', $item->id) }}">{{ $item->name }}</a></td><td>{{ $item->email }}</td>
                                         <td>
                                             <a href="{{ route('users.show',$item->id) }}" title="View User"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button></a>
                                             <a href="{{ route('users.edit',$item->id) }}" title="Edit User"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
@@ -55,10 +38,9 @@
                                             {!! Form::close() !!}
                                         </td>
                                     </tr>
-                                @endforeach
+                                @endforeach --}}
                                 </tbody>
                             </table>
-                            <div class="pagination"> {!! $users->appends(['search' => Request::get('search')])->render() !!} </div>
                         </div>
 
                     </div>
@@ -66,4 +48,24 @@
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+<script type="text/javascript">
+$(document).ready( function () {
+    $('#mainTable').DataTable({
+        ajax: {
+            url: '{{ route("users.index") }}'
+        },
+        processing: true,
+        serverSide: true,
+        responsive: true,
+        columns: [
+            { data: 'id', name: 'id' },
+            { data: 'name', name: 'name' },
+            { data: 'email', name: 'email' },
+            { data: null, defaultContent: ''}
+        ]
+    });
+});
+</script>
 @endsection

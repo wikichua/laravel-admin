@@ -16,17 +16,12 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-        $keyword = $request->get('search');
-        $perPage = 15;
-
-        if (!empty($keyword)) {
-            $users = User::where('name', 'LIKE', "%$keyword%")->orWhere('email', 'LIKE', "%$keyword%")
-                ->latest()->paginate($perPage);
-        } else {
-            $users = User::latest()->paginate($perPage);
+        if($request->ajax()){
+            $users = User::latest();
+            return datatables($users)->toJson();
         }
-
-        return view('admin.users.index', compact('users'));
+        return view('admin.users.index');
+        // return view('admin.users.index', compact('users'));
     }
 
     /**
