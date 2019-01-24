@@ -63,13 +63,9 @@ Route::group(['namespace' => 'Admin','prefix' => 'admin', 'middleware' => ['auth
 EOD;
 
         File::append($routeFile, "\n" . $routes);
-
         $this->info("Overriding the AuthServiceProvider");
         $contents = File::get(__DIR__ . '/../publish/Providers/AuthServiceProvider.php');
         File::put(app_path('Providers/AuthServiceProvider.php'), $contents);
-
-        $this->info("Add this in your config/app.php");
-        $this->info("App\Providers\LaravelBreadServiceProvider::class");
         $this->info("Successfully installed Laravel Bread!");
     }
 }

@@ -59,6 +59,30 @@ class CreateRolesPermissionsTables extends Migration
 
             $table->primary(['role_id', 'user_id']);
         });
+        $existed = DB::table('permissions')->count();
+        if ($existed == 0) {
+            DB::table('permissions')->insert([
+                'name' => 'browse-admin',
+                'label' => 'Browse Admin',
+            ]);
+            DB::table('roles')->insert([
+                'name' => 'admin',
+                'label' => 'Admin',
+            ]);
+            DB::table('users')->insert([
+                'name' => 'admin',
+                'email' => 'admin@admin.com',
+                'password' => bcrypt('admin'),
+            ]);
+            DB::table('permission_role')->insert([
+                'permission_id' => 1,
+                'role_id' => 1,
+            ]);
+            DB::table('role_user')->insert([
+                'user_id' => 1,
+                'role_id' => 1,
+            ]);
+        }
     }
 
     /**

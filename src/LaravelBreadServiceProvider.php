@@ -12,29 +12,12 @@ class LaravelBreadServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/../publish/Middleware/' => app_path('Http/Middleware'),
-        ]);
-
-        $this->publishes([
             __DIR__ . '/../publish/migrations/' => database_path('migrations'),
-        ]);
-
-        $this->publishes([
             __DIR__ . '/../publish/Model/' => app_path(),
-        ]);
-
-        $this->publishes([
             __DIR__ . '/../publish/Controllers/' => app_path('Http/Controllers'),
-        ]);
-
-        $this->publishes([
             __DIR__ . '/../publish/resources/' => base_path('resources'),
-        ]);
-
-        $this->publishes([
             __DIR__ . '/../publish/crudgenerator.php' => config_path('crudgenerator.php'),
-        ]);
-
-        $this->publishes([
+            __DIR__ . '/../publish/menus.php' => config_path('menus.php'),
             __DIR__ . '/views' => base_path('resources/views/vendor/laravel-bread'),
         ], 'views');
 
