@@ -62,11 +62,13 @@ Route::group(['namespace' => 'Admin','prefix' => 'admin', 'middleware' => ['auth
     Route::post('/generator', ['as' => 'generator.post','uses' => '\Wikichua\LaravelBread\Controllers\BreadController@postGenerator']);
 });
 EOD;
-
         File::append($routeFile, "\n" . $routes);
         $this->info("Overriding the AuthServiceProvider");
         $contents = File::get(__DIR__ . '/../publish/Providers/AuthServiceProvider.php');
         File::put(app_path('Providers/AuthServiceProvider.php'), $contents);
+        $content = File::get(app_path('User.php'));
+        $content = str_replace('use Notifiable;', 'use Notifiable, HasRoles;', $content);
+        File::put(app_path('User.php'), $content);
         $this->info("Successfully installed Laravel Bread!");
     }
 }
