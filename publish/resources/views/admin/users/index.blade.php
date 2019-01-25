@@ -63,7 +63,7 @@ $(document).ready( function () {
             { data: 'id', name: 'id' },
             { data: 'name', name: 'name' },
             { data: 'email', name: 'email' },
-            { data: null, defaultContent: ''}
+            { data: 'action', name: 'action'}
         ]
     });
 });
