@@ -104,6 +104,24 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+            $('#mainTable tbody').on('click', '.deleteBtn', function(event) {
+                event.preventDefault();
+                $.ajax({
+                    url: $(this).attr('href'),
+                    type: 'DELETE',
+                    dataType: 'json'
+                })
+                .done(function() {
+                    console.log("success");
+                })
+                .fail(function() {
+                    console.log("error");
+                })
+                .always(function() {
+                     $('#mainTable').DataTable().draw(false);
+                });
+                
+            });
             // Navigation active
             $('ul.navbar-nav a[href="{{ "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" }}"]').closest('li').addClass('active');
         });

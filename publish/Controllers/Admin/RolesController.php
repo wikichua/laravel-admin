@@ -16,17 +16,19 @@ class RolesController extends Controller
      */
     public function index(Request $request)
     {
-        $keyword = $request->get('search');
-        $perPage = 15;
-
-        if (!empty($keyword)) {
-            $roles = Role::where('name', 'LIKE', "%$keyword%")->orWhere('label', 'LIKE', "%$keyword%")
-                ->latest()->paginate($perPage);
-        } else {
-            $roles = Role::latest()->paginate($perPage);
+        if($request->ajax()){
+            $roles = Role::get();
+            return datatables($roles)->addColumn('action', function ($roles) {
+                return '
+                <a href="'.route('roles.show',$roles->id).'" title="View Role" class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                <a href="'.route('roles.edit',$roles->id).'" title="Edit Role" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                <a href="'.route('roles.destroy', $roles->id).'" title="Delete Role" class="deleteBtn btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                ';
+            })
+            ->toJson();
         }
 
-        return view('admin.roles.index', compact('roles'));
+        return view('admin.roles.index');
     }
 
     /**

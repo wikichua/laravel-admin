@@ -17,18 +17,18 @@ class SettingsController extends Controller
      */
     public function index(Request $request)
     {
-        $keyword = $request->get('search');
-        $perPage = 25;
-
-        if (!empty($keyword)) {
-            $settings = Setting::where('key', 'LIKE', "%$keyword%")
-                ->orWhere('value', 'LIKE', "%$keyword%")
-                ->orderBy('key')->paginate($perPage);
-        } else {
-            $settings = Setting::orderBy('key')->paginate($perPage);
+        if($request->ajax()){
+            $settings = Setting::get();
+            return datatables($settings)->addColumn('action', function ($settings) {
+                return '
+                <a href="'.route('settings.show',$settings->id).'" title="View Setting" class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                <a href="'.route('settings.edit',$settings->id).'" title="Edit Setting" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                <a href="'.route('settings.destroy', $settings->id).'" title="Delete Setting" class="deleteBtn btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                ';
+            })
+            ->toJson();
         }
-
-        return view('admin.settings.index', compact('settings'));
+        return view('admin.settings.index');
     }
 
     /**

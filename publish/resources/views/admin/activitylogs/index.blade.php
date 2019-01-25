@@ -9,64 +9,41 @@
                 <div class="card">
                     <div class="card-header">Activity Logs</div>
                     <div class="card-body">
-                        {!! Form::open(['method' => 'GET', 'url' => route('activitylogs.index'), 'class' => 'form-inline my-2 my-lg-0 float-right', 'role' => 'search'])  !!}
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="search" placeholder="Search..." value="{{ request('search') }}">
-                            <span class="input-group-append">
-                                <button class="btn btn-secondary" type="submit">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                        {!! Form::close() !!}
-
-                        <br/>
-                        <br/>
                         <div class="table-responsive">
-                            <table class="table table-borderless">
+                            <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%" id="mainTable">
                                 <thead>
                                     <tr>
                                         <th>ID</th><th>Activity</th><th>Actor</th><th>Date</th><th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($activitylogs as $item)
-                                    <tr>
-                                        <td>{{ $item->id }}</td>
-                                        <td>{{ $item->description }}</td>
-                                        <td>
-                                            @if ($item->causer)
-                                                <a href="{{ route('users.show', $item->causer->id) }}">{{ $item->causer->name }}</a>
-                                            @else
-                                                -
-                                            @endif
-                                        </td>
-                                        <td>{{ $item->created_at }}</td>
-                                        <td>
-                                            <a href="{{ route('activitylogs.show', $item->id) }}" title="View Activity"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button></a>
-                                            {!! Form::open([
-                                                'method' => 'DELETE',
-                                                'url' => route('activitylogs.destroy', $item->id),
-                                                'style' => 'display:inline'
-                                            ]) !!}
-                                                {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i>', array(
-                                                        'type' => 'submit',
-                                                        'class' => 'btn btn-danger btn-sm',
-                                                        'title' => 'Delete Activity',
-                                                        'onclick'=>'return confirm("Confirm delete?")'
-                                                )) !!}
-                                            {!! Form::close() !!}
-                                        </td>
-                                    </tr>
-                                @endforeach
                                 </tbody>
                             </table>
-                            <div class="pagination-wrapper"> {!! $activitylogs->appends(['search' => Request::get('search')])->render() !!} </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+<script type="text/javascript">
+$(document).ready( function () {
+    $('#mainTable').DataTable({
+        ajax: {
+            url: '{{ route("activitylogs.index") }}'
+        },
+        processing: true,
+        serverSide: true,
+        responsive: true,
+        columns: [
+            { data: 'id', name: 'id' },
+            { data: 'description', name: 'description' },
+            { data: 'causer', name: 'causer' },
+            { data: 'created_at', name: 'created_at' },
+            { data: 'action', name: 'action'}
+        ]
+    });
+});
+</script>
 @endsection

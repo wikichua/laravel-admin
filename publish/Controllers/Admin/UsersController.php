@@ -20,17 +20,14 @@ class UsersController extends Controller
             $users = User::latest();
             return datatables($users)->addColumn('action', function ($users) {
                 return '
-                <a href="'.route('users.show',$users->id).'" title="View User"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button></a>
-                <a href="'.route('users.edit',$users->id).'" title="Edit User"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
-                Form::open(["method" => "DELETE", "url" => "'.route('users.destroy', $users->id).'", "style" => "display:inline"])
-                <button type="submit" class="btn btn-danger btn-sm" title="Delete User" onclick="return confirm("Confirm delete?")"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                Form::close()
+                <a href="'.route('users.show',$users->id).'" title="View User" class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                <a href="'.route('users.edit',$users->id).'" title="Edit User" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                <a href="'.route('users.destroy', $users->id).'" title="Delete User" class="deleteBtn btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                 ';
             })
             ->toJson();
         }
         return view('admin.users.index');
-        // return view('admin.users.index', compact('users'));
     }
 
     /**

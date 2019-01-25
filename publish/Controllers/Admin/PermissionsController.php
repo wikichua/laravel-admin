@@ -15,17 +15,19 @@ class PermissionsController extends Controller
      */
     public function index(Request $request)
     {
-        $keyword = $request->get('search');
-        $perPage = 15;
-
-        if (!empty($keyword)) {
-            $permissions = Permission::where('name', 'LIKE', "%$keyword%")->orWhere('label', 'LIKE', "%$keyword%")
-                ->latest()->paginate($perPage);
-        } else {
-            $permissions = Permission::latest()->paginate($perPage);
+        if($request->ajax()){
+            $permissions = Permission::get();
+            return datatables($permissions)->addColumn('action', function ($permissions) {
+                return '
+                <a href="'.route('permissions.show',$permissions->id).'" title="View Permission" class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                <a href="'.route('permissions.edit',$permissions->id).'" title="Edit Permission" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                <a href="'.route('permissions.destroy', $permissions->id).'" title="Delete Permission" class="deleteBtn btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                ';
+            })
+            ->toJson();
         }
 
-        return view('admin.permissions.index', compact('permissions'));
+        return view('admin.permissions.index');
     }
 
     /**

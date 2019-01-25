@@ -17,14 +17,18 @@ class ActivityLogsController extends Controller
      */
     public function index(Request $request)
     {
-        $keyword = $request->get('search');
-        $perPage = 25;
-
-        if (!empty($keyword)) {
-            $activitylogs = Activity::where('description', 'LIKE', "%$keyword%")
-                ->latest()->paginate($perPage);
-        } else {
-            $activitylogs = Activity::latest()->paginate($perPage);
+        if($request->ajax()){
+            $activities = Activity::get();
+            return datatables($activities)
+                ->addColumn('causer', function ($activities) {
+                    return $item->causer? '<a href="'.route('users.show', $activities->causer->id).'">{{ $activities->causer->name }}</a>':'-';
+                })
+                ->addColumn('action', function ($activities) {
+                    return '
+                    <a href="'.route('activities.show',$activities->id).'" title="View Activity" class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                    ';
+                })
+                ->toJson();
         }
 
         return view('admin.activitylogs.index', compact('activitylogs'));
