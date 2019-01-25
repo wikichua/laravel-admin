@@ -154,6 +154,6 @@ class UsersController extends Controller
     {
         User::destroy($id);
 
-        return redirect('admin/users')->with('flash_message', 'User deleted!');
+        return ['flash_message' => 'User deleted!'];
     }
 }

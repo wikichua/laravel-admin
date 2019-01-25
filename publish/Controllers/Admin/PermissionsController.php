@@ -113,6 +113,6 @@ class PermissionsController extends Controller
     {
         Permission::destroy($id);
 
-        return redirect('admin/permissions')->with('flash_message', 'Permission deleted!');
+        return ['flash_message' => 'Permission deleted!'];
     }
 }

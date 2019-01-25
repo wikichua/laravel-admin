@@ -74,7 +74,7 @@ class BreadController extends Controller
         }
 
         try {
-            Artisan::call('crud:generate', $commandArg);
+            Artisan::call('bread:generate', $commandArg);
 
             $name = $commandArg['name'];
             $routeName = ($commandArg['--route-group']) ? $commandArg['--route-group'] . '/' . snake_case($name, '-') : snake_case($name, '-');

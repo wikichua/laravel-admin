@@ -129,6 +129,6 @@ class SettingsController extends Controller
     {
         Setting::destroy($id);
 
-        return redirect('admin/settings')->with('flash_message', 'Setting deleted!');
+        return ['flash_message' => 'Setting deleted!'];
     }
 }

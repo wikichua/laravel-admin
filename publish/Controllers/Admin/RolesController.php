@@ -133,6 +133,6 @@ class RolesController extends Controller
     {
         Role::destroy($id);
 
-        return redirect('admin/roles')->with('flash_message', 'Role deleted!');
+        return ['flash_message' => 'Role deleted!'];
     }
 }

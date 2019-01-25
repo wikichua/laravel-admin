@@ -35,7 +35,15 @@ class LaravelBreadServiceProvider extends ServiceProvider
     public function register()
     {
         $this->commands(
-            'Wikichua\LaravelBread\LaravelBreadCommand'
+            'Wikichua\LaravelBread\LaravelBreadCommand',
+            'Wikichua\LaravelBread\Commands\CrudCommand',
+            'Wikichua\LaravelBread\Commands\CrudControllerCommand',
+            'Wikichua\LaravelBread\Commands\CrudModelCommand',
+            'Wikichua\LaravelBread\Commands\CrudMigrationCommand',
+            'Wikichua\LaravelBread\Commands\CrudViewCommand',
+            'Wikichua\LaravelBread\Commands\CrudLangCommand',
+            'Wikichua\LaravelBread\Commands\CrudApiCommand',
+            'Wikichua\LaravelBread\Commands\CrudApiControllerCommand'
         );
 
         $this->app->bind('Setting', \Wikichua\LaravelBread\Setting::class);

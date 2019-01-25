@@ -9,61 +9,36 @@
                 <div class="card">
                     <div class="card-header">%%crudNameCap%%</div>
                     <div class="card-body">
-                        <a href="{{ route('%%viewName%%.create') }}" class="btn btn-success btn-sm" title="Add New %%modelName%%">
-                            <i class="fa fa-plus" aria-hidden="true"></i> Add New
-                        </a>
-
-                        {!! Form::open(['method' => 'GET', 'route' => '%%viewName%%.index', 'class' => 'form-inline my-2 my-lg-0 float-right', 'role' => 'search'])  !!}
-                        <div class="input-group">
-                            <input type="text" class="form-control" name="search" placeholder="Search..." value="{{ request('search') }}">
-                            <span class="input-group-append">
-                                <button class="btn btn-secondary" type="submit">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                        {!! Form::close() !!}
-
-                        <br/>
-                        <br/>
                         <div class="table-responsive">
                             <table class="table table-borderless">
                                 <thead>
                                     <tr>
-                                        <th>#</th>%%formHeadingHtml%%<th>Actions</th>
+                                        <th>#</th>%%formHeadingHtml%%<th><a href="{{ route('%%viewName%%.create') }}" class="btn btn-success btn-sm" title="Add New %%modelName%%"><i class="fa fa-plus" aria-hidden="true"></i> Add New</a></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($%%crudName%% as $item)
-                                    <tr>
-                                        <td>{{ $loop->iteration or $item->%%primaryKey%% }}</td>
-                                        %%formBodyHtml%%
-                                        <td>
-                                            <a href="{{ route('%%viewName%%.show', $item->%%primaryKey%%) }}" title="View %%modelName%%"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></button></a>
-                                            <a href="{{ route('%%viewName%%.edit', $item->%%primaryKey%%) }}" title="Edit %%modelName%%"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
-                                            {!! Form::open([
-                                                'method' => 'DELETE',
-                                                'route' => ['%%viewName%%.destroy', $item->%%primaryKey%%],
-                                                'style' => 'display:inline'
-                                            ]) !!}
-                                                {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i>', array(
-                                                        'type' => 'submit',
-                                                        'class' => 'btn btn-danger btn-sm',
-                                                        'title' => 'Delete %%modelName%%',
-                                                        'onclick'=>'return confirm("Confirm delete?")'
-                                                )) !!}
-                                            {!! Form::close() !!}
-                                        </td>
-                                    </tr>
-                                @endforeach
                                 </tbody>
                             </table>
-                            <div class="pagination-wrapper"> {!! $%%crudName%%->appends(['search' => Request::get('search')])->render() !!} </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+@section('scripts')
+<script type="text/javascript">
+$(document).ready( function () {
+    $('#mainTable').DataTable({
+        ajax: {
+            url: '{{ route('%%viewName%%.index')  }}'
+        },
+        processing: true,
+        serverSide: true,
+        responsive: true,
+        columns: %%datatableCols%%
+    });
+});
+</script>
+@endsection
+
