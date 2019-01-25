@@ -106,20 +106,22 @@
             });
             $('#mainTable tbody').on('click', '.deleteBtn', function(event) {
                 event.preventDefault();
-                $.ajax({
-                    url: $(this).attr('href'),
-                    type: 'DELETE',
-                    dataType: 'json'
-                })
-                .done(function() {
-                    console.log("success");
-                })
-                .fail(function() {
-                    console.log("error");
-                })
-                .always(function() {
-                     $('#mainTable').DataTable().draw(false);
-                });
+                if (confirm('Are you sure you want to delete this?')) {
+                    $.ajax({
+                        url: $(this).attr('href'),
+                        type: 'DELETE',
+                        dataType: 'json'
+                    })
+                    .done(function() {
+                        console.log("success");
+                    })
+                    .fail(function() {
+                        console.log("error");
+                    })
+                    .always(function() {
+                         $('#mainTable').DataTable().draw(false);
+                    });
+                }
                 
             });
             // Navigation active
