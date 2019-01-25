@@ -1,17 +1,17 @@
 <div class="col-md-3">
-    @foreach($laravelAdminMenus as $section)
-        @if($section->items)
+    @foreach(array_keys($laravelAdminMenus) as $section)
+        @if(count($laravelAdminMenus[$section]))
             <div class="card">
                 <div class="card-header">
-                    {{ $section->section }}
+                    {{ $section }}
                 </div>
                 <div class="card-body">
                     <ul class="nav flex-column" role="tablist">
-                        @foreach($section->items as $menu)
-                            @if (auth()->user()->hasRole('admin') || ($menu->permission !== '' && auth()->user()->can($menu->permission)))
+                        @foreach($laravelAdminMenus[$section] as $menu)
+                            @if (auth()->user()->hasRole('admin') || ($menu['permission'] !== '' && auth()->user()->can($menu['permission'])))
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" href="{{ route($menu->url) }}">
-                                        {{ $menu->title }}
+                                    <a class="nav-link" href="{{ route($menu['url']) }}">
+                                        {{ $menu['title'] }}
                                     </a>
                                 </li>
                             @endif

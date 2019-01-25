@@ -17,16 +17,20 @@ class DummyClass extends Controller
      */
     public function index(Request $request)
     {
-        $keyword = $request->get('search');
-        $perPage = {{pagination}};
-
-        if (!empty($keyword)) {
-            ${{crudName}} = {{modelName}}::{{whereSnippet}}latest()->paginate($perPage);
-        } else {
-            ${{crudName}} = {{modelName}}::latest()->paginate($perPage);
+        if($request->ajax()){
+            ${{crudName}} = {{modelName}}::latest();
+            return datatables(${{crudName}})
+                ->addColumn('action', function (${{crudName}}) {
+                    return '
+                    <a href="'.route('{{crudName}}.show',${{crudName}}->id).'" title="View {{modelName}}" class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                    <a href="'.route('{{crudName}}.edit',${{crudName}}->id).'" title="Edit {{modelName}}" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                    <a href="'.route('{{crudName}}.destroy', ${{crudName}}->id).'" title="Delete {{modelName}}" class="deleteBtn btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                    ';
+                })
+                ->toJson();
         }
 
-        return view('{{viewPath}}{{viewName}}.index', compact('{{crudName}}'));
+        return view('{{viewPath}}{{viewName}}.index');
     }
 
     /**

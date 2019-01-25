@@ -24,8 +24,7 @@ class LaravelBreadServiceProvider extends ServiceProvider
             __DIR__ . '/views' => base_path('resources/views/vendor/laravel-bread'),
         ], 'views');
         $this->loadViewsFrom(__DIR__ . '/views', 'laravel-bread');
-        $menus = json_decode(json_encode(config('menus')));
-        view()->share('laravelAdminMenus', $menus);
+        view()->share('laravelAdminMenus', config('menus'));
     }
 
     /**

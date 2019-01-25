@@ -12,7 +12,12 @@
 
                         <form class="form-horizontal" method="post" action="{{ url('/admin/generator') }}">
                             {{ csrf_field() }}
-
+                            <div class="form-group row">
+                                <label for="view_path" class="col-md-4 col-form-label text-right">Menu Section:</label>
+                                <div class="col-md-6">
+                                    <input type="text" name="menu_section" class="form-control" id="menu_section" placeholder="Public" required="true">
+                                </div>
+                            </div>
                             <div class="form-group row">
                                 <label for="crud_name" class="col-md-4 col-form-label text-right">Crud Name:</label>
                                 <div class="col-md-6">
