@@ -97,6 +97,7 @@ class CrudViewCommand extends Command
         'formBodyHtml',
         'viewTemplateDir',
         'formBodyHtmlForShowView',
+        'datatableCols',
     ];
 
     /**
@@ -231,6 +232,8 @@ class CrudViewCommand extends Command
      * @var string
      */
     protected $viewTemplateDir = '';
+    
+    protected $datatableCols = '';
 
     /**
      * Delimiter used for replacing values
