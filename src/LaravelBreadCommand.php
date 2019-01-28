@@ -17,7 +17,7 @@ class LaravelBreadCommand extends Command
     public function handle()
     {
         try {
-            // $this->call('migrate');
+            $this->call('migrate');
         } catch (\Illuminate\Database\QueryException $e) {
             $this->error($e->getMessage());
             exit();
@@ -25,13 +25,13 @@ class LaravelBreadCommand extends Command
 
         if (\App::VERSION() >= '5.2') {
             $this->info("Generating the authentication scaffolding");
-            // $this->call('make:auth');
+            $this->call('make:auth');
         }
 
         $this->info("Publishing the assets");
         // $this->call('vendor:publish', ['--provider' => 'Appzcoder\CrudGenerator\CrudGeneratorServiceProvider', '--force' => true]);
         $this->call('vendor:publish', ['--provider' => 'Wikichua\LaravelBread\LaravelBreadServiceProvider', '--force' => true]);
-        // $this->call('vendor:publish', ['--provider' => 'Spatie\Activitylog\ActivitylogServiceProvider', '--tag' => 'migrations']);
+        $this->call('vendor:publish', ['--provider' => 'Spatie\Activitylog\ActivitylogServiceProvider', '--tag' => 'migrations']);
         $this->call('vendor:publish', ['--provider' => 'Yajra\DataTables\DataTablesServiceProvider', '--force' => true]);
 
         $this->info("Dumping the composer autoload");
@@ -62,13 +62,13 @@ Route::group(['namespace' => 'Admin','prefix' => 'admin', 'middleware' => ['auth
     Route::post('/generator', ['as' => 'generator.post','uses' => '\Wikichua\LaravelBread\Controllers\BreadController@postGenerator']);
 });
 EOD;
-        // File::append($routeFile, "\n" . $routes);
-        // $this->info("Overriding the AuthServiceProvider");
-        // $contents = File::get(__DIR__ . '/../publish/Providers/AuthServiceProvider.php');
-        // File::put(app_path('Providers/AuthServiceProvider.php'), $contents);
-        // $content = File::get(app_path('User.php'));
-        // $content = str_replace('use Notifiable;', 'use Notifiable, HasRoles;', $content);
-        // File::put(app_path('User.php'), $content);
-        // $this->info("Successfully installed Laravel Bread!");
+        File::append($routeFile, "\n" . $routes);
+        $this->info("Overriding the AuthServiceProvider");
+        $contents = File::get(__DIR__ . '/../publish/Providers/AuthServiceProvider.php');
+        File::put(app_path('Providers/AuthServiceProvider.php'), $contents);
+        $content = File::get(app_path('User.php'));
+        $content = str_replace('use Notifiable;', 'use Notifiable, HasRoles;', $content);
+        File::put(app_path('User.php'), $content);
+        $this->info("Successfully installed Laravel Bread!");
     }
 }
