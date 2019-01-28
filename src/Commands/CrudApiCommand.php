@@ -12,7 +12,7 @@ class CrudApiCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'crud:api
+    protected $signature = 'bread:api
                             {name : The name of the Crud.}
                             {--fields= : Field names for the form & migration.}
                             {--fields_from_file= : Fields from a json file.}

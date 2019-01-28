@@ -355,6 +355,8 @@ class CrudViewCommand extends Command
             $i++;
         }
 
+        $this->datatableCols = 'hello world';
+
         $this->templateStubs($path);
 
         $this->info('View created successfully.');
