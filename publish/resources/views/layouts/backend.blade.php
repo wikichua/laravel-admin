@@ -82,7 +82,7 @@
                 Swal.fire({
                   type: 'success',
                   showCloseButton: true,
-                  text: '{{ Session::has('flash_message') }}'
+                  text: '{{ Session::get('flash_message') }}'
                 });
             @endif
             @if ($errors->any())

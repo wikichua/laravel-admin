@@ -29,7 +29,6 @@ class LaravelBreadCommand extends Command
         }
 
         $this->info("Publishing the assets");
-        // $this->call('vendor:publish', ['--provider' => 'Appzcoder\CrudGenerator\CrudGeneratorServiceProvider', '--force' => true]);
         $this->call('vendor:publish', ['--provider' => 'Wikichua\LaravelBread\LaravelBreadServiceProvider', '--force' => true]);
         $this->call('vendor:publish', ['--provider' => 'Spatie\Activitylog\ActivitylogServiceProvider', '--tag' => 'migrations']);
         $this->call('vendor:publish', ['--provider' => 'Yajra\DataTables\DataTablesServiceProvider', '--force' => true]);
@@ -38,7 +37,7 @@ class LaravelBreadCommand extends Command
         (new Process('composer dump-autoload'))->run();
 
         $this->info("Migrating the database tables into your application");
-        // $this->call('migrate');
+        $this->call('migrate');
 
         $this->info("Adding the routes");
 

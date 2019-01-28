@@ -337,7 +337,8 @@ class CrudViewCommand extends Command
             $this->formFieldsHtml .= $this->createField($item);
         }
 
-        $i = 0;
+        $i = 0; $columns = [];
+        $columns[] = ['data' => 'id', 'name' => 'Id'];
         foreach ($this->formFields as $key => $value) {
             if ($i == $this->defaultColumnsToShow) {
                 break;
@@ -345,6 +346,7 @@ class CrudViewCommand extends Command
 
             $field = $value['name'];
             $label = ucwords(str_replace('_', ' ', $field));
+            $columns[] = ['data' => $field, 'name' => $label];
             if ($this->option('localize') == 'yes') {
                 $label = '{{ trans(\'' . $this->crudName . '.' . $field . '\') }}';
             }
@@ -354,8 +356,8 @@ class CrudViewCommand extends Command
 
             $i++;
         }
-
-        $this->datatableCols = 'hello world';
+        $columns[] = ['data' => 'action', 'name' => 'Action'];
+        $this->datatableCols = json_encode($columns);
 
         $this->templateStubs($path);
 
@@ -370,7 +372,7 @@ class CrudViewCommand extends Command
     private function defaultTemplating()
     {
         return [
-            'index' => ['formHeadingHtml', 'formBodyHtml', 'crudName', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey'],
+            'index' => ['formHeadingHtml', 'formBodyHtml', 'crudName', 'crudNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey','datatableCols'],
             'form' => ['formFieldsHtml'],
             'create' => ['crudName', 'crudNameCap', 'modelName', 'modelNameCap', 'viewName', 'routeGroup', 'viewTemplateDir'],
             'edit' => ['crudName', 'crudNameSingular', 'crudNameCap', 'modelNameCap', 'modelName', 'viewName', 'routeGroup', 'primaryKey', 'viewTemplateDir'],
