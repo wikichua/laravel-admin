@@ -61,6 +61,7 @@ class CrudMigrationCommand extends GeneratorCommand
         'double' => 'double',
         'float' => 'float',
         'enum' => 'enum',
+        'select' => 'string',
     ];
 
     /**

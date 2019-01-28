@@ -104,6 +104,7 @@
                                         <option value="decimal">decimal</option>
                                         <option value="double">double</option>
                                         <option value="float">float</option>
+                                        <option value="select">select</option>
                                     </select>
 
                                     <label>Required</label>

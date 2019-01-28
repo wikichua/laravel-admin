@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="//cdn.datatables.net/responsive/2.2.2/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css">
 </head>
 <body>
     <div id="app">
@@ -71,6 +72,7 @@
     <script src="//cdn.datatables.net/responsive/2.2.2/js/dataTables.responsive.min.js"></script>
     <script src="//cdn.datatables.net/responsive/2.2.2/js/responsive.bootstrap4.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.all.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
     <script type="text/javascript">
         tinymce.init({
             selector: '.crud-richtext'
@@ -127,6 +129,7 @@
                 }
                 
             });
+            $('.select2').select2();
             // Navigation active
             $('ul.navbar-nav a[href="{{ "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" }}"]').closest('li').addClass('active');
         });
