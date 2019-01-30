@@ -81,14 +81,21 @@ class BreadController extends Controller
 
             $menus = config('menus');
             $menus[$request->menu_section][] = [
-                'title' => $request->crud_name,
-                'url' => strtolower($request->crud_name).'.index',
-                'permission' => 'browse-'.strtolower($request->crud_name),
+                'title' => $name,
+                'url' => strtolower($name).'.index',
+                'permission' => 'browse-'.strtolower($name),
             ];
 
             File::put(config_path('menus.php'), "<?php \nreturn\n" . var_export($menus, true) . ";");
 
             Artisan::call('migrate');
+            \DB::table('permissions')->insert([
+                ['name' => 'browse-'.strtolower($name), 'label' => 'Browse '.$name],
+                ['name' => 'read-'.strtolower($name), 'label' => 'Read '.$name],
+                ['name' => 'add-'.strtolower($name), 'label' => 'Add '.$name],
+                ['name' => 'edit-'.strtolower($name), 'label' => 'Edit '.$name],
+                ['name' => 'delete-'.strtolower($name), 'label' => 'Delete '.$name],
+            ]);
         } catch (\Exception $e) {
             return Response::make($e->getMessage(), 500);
         }

@@ -12,7 +12,7 @@ class DummyClass extends Controller
 {
     public function index(Request $request)
     {
-        $this->authorize('browse-${{crudName}}');
+        $this->authorize('browse-{{crudName}}');
         if($request->ajax()){
             ${{crudName}} = {{modelName}}::latest();
             return datatables(${{crudName}})
@@ -35,12 +35,12 @@ class DummyClass extends Controller
     }
     public function create()
     {
-        $this->authorize('add-${{crudName}}');
+        $this->authorize('add-{{crudName}}');
         return view('{{viewPath}}{{viewName}}.create');
     }
     public function store(Request $request)
     {
-        $this->authorize('add-${{crudName}}');
+        $this->authorize('add-{{crudName}}');
         {{validationRules}}
         $requestData = $request->all();
         {{fileSnippet}}
@@ -50,21 +50,21 @@ class DummyClass extends Controller
     }
     public function show($id)
     {
-        $this->authorize('read-${{crudName}}');
+        $this->authorize('read-{{crudName}}');
         ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
 
         return view('{{viewPath}}{{viewName}}.show', compact('{{crudNameSingular}}'));
     }
     public function edit($id)
     {
-        $this->authorize('edit-${{crudName}}');
+        $this->authorize('edit-{{crudName}}');
         ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
 
         return view('{{viewPath}}{{viewName}}.edit', compact('{{crudNameSingular}}'));
     }
     public function update(Request $request, $id)
     {
-        $this->authorize('edit-${{crudName}}');
+        $this->authorize('edit-{{crudName}}');
         {{validationRules}}
         $requestData = $request->all();
         {{fileSnippet}}
@@ -75,7 +75,7 @@ class DummyClass extends Controller
     }
     public function destroy($id)
     {
-        $this->authorize('delete-${{crudName}}');
+        $this->authorize('delete-{{crudName}}');
         {{modelName}}::destroy($id);
 
         return redirect()->route('{{viewName}}.index')->with('flash_message', '{{modelName}} deleted!');
