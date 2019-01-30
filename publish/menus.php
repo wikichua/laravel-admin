@@ -5,34 +5,34 @@ return
 		[
 			'title' => 'Users',
 			'url' => 'users.index',
-			'permission' => 'browse-admin',
+			'permission' => 'browse-users',
 		],
 		[
 			'title' => 'Roles',
 			'url' => 'roles.index',
-			'permission' => '',
+			'permission' => 'browse-roles',
 		],
 		[
 			'title' => 'Permissions',
 			'url' => 'permissions.index',
-			'permission' => '',
+			'permission' => 'browse-permissions',
 		],
 		[
 			'title' => 'Activity Logs',
 			'url' => 'activitylogs.index',
-			'permission' => '',
+			'permission' => 'browse-activitylogs',
 		],
 		[
 			'title' => 'Settings',
 			'url' => 'settings.index',
-			'permission' => '',
+			'permission' => 'browse-settings',
 		]
 	],
 	'Tools' => [
 		[
 			'title' => 'Generator',
 			'url' => 'generator.get',
-			'permission' => '',
+			'permission' => 'browse-generator',
 		]
 	],
 	'Public' => []

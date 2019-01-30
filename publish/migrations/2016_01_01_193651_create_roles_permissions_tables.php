@@ -62,25 +62,35 @@ class CreateRolesPermissionsTables extends Migration
         $existed = DB::table('permissions')->count();
         if ($existed == 0) {
             DB::table('permissions')->insert([
-                'name' => 'browse-admin',
-                'label' => 'Browse Admin',
-            ]);
-            DB::table('roles')->insert([
-                'name' => 'admin',
-                'label' => 'Admin',
+                ['name' => 'browse-admin', 'label' => 'Browse Admin'],
+                ['name' => 'browse-users', 'label' => 'Browse Users'],
+                ['name' => 'browse-roles', 'label' => 'Browse Roles'],
+                ['name' => 'browse-permissions', 'label' => 'Browse Permissions'],
+                ['name' => 'browse-activitylogs', 'label' => 'Browse Activitylogs'],
+                ['name' => 'browse-settings', 'label' => 'Browse Settings'],
+                ['name' => 'browse-generator', 'label' => 'Browse Generator'],
             ]);
             DB::table('users')->insert([
-                'name' => 'admin',
-                'email' => 'admin@admin.com',
-                'password' => bcrypt('admin'),
+                ['name' => 'admin', 'email' => 'admin@admin.com', 'password' => bcrypt('admin')],
+                ['name' => 'user', 'email' => 'user@user.com', 'password' => bcrypt('user')],
             ]);
-            DB::table('permission_role')->insert([
-                'permission_id' => 1,
-                'role_id' => 1,
+            DB::table('roles')->insert([
+                ['name' => 'admin', 'label' => 'Admin']
+                ['name' => 'user', 'label' => 'User']
             ]);
             DB::table('role_user')->insert([
-                'user_id' => 1,
-                'role_id' => 1,
+                ['user_id' => 1, 'role_id' => 1],
+                ['user_id' => 2, 'role_id' => 2],
+            ]);
+            DB::table('permission_role')->insert([
+                ['role_id' => 1, 'permission_id' => 1],
+                ['role_id' => 1, 'permission_id' => 2],
+                ['role_id' => 1, 'permission_id' => 3],
+                ['role_id' => 1, 'permission_id' => 4],
+                ['role_id' => 1, 'permission_id' => 5],
+                ['role_id' => 1, 'permission_id' => 6],
+                ['role_id' => 1, 'permission_id' => 7],
+                ['role_id' => 2, 'permission_id' => 1],
             ]);
         }
     }
