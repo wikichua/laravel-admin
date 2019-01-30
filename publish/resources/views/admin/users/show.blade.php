@@ -11,7 +11,10 @@
                     <div class="card-body">
 
                         <a href="{{ route('users.index') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        @if (auth()->user()->can('edit-users'))
                         <a href="{{ route('users.edit', $user->id) }}" title="Edit User"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                        @endif
+                        @if (auth()->user()->can('delete-users'))
                         {!! Form::open([
                             'method' => 'DELETE',
                             'url' => route('users.destroy', $user->id),
@@ -24,8 +27,7 @@
                                     'onclick'=>'return confirm("Confirm delete?")'
                             ))!!}
                         {!! Form::close() !!}
-                        <br/>
-                        <br/>
+                        @endif
 
                         <div class="table-responsive">
                             <table class="table">

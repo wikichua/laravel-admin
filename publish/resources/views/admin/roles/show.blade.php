@@ -11,7 +11,10 @@
                     <div class="card-body">
 
                         <a href="{{ route('roles.index') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        @if (auth()->user()->can('edit-roles'))
                         <a href="{{ route('roles.edit', $role->id) }}" title="Edit Role"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                        @endif
+                        @if (auth()->user()->can('delete-roles'))
                         {!! Form::open([
                             'method' => 'DELETE',
                             'url' => route('roles.destroy', $role->id),
@@ -24,8 +27,7 @@
                                     'onclick'=>'return confirm("Confirm delete?")'
                             ))!!}
                         {!! Form::close() !!}
-                        <br/>
-                        <br/>
+                        @endif
 
                         <div class="table-responsive">
                             <table class="table">

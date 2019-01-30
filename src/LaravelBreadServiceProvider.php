@@ -10,11 +10,9 @@ class LaravelBreadServiceProvider extends ServiceProvider
     protected $defer = false;
     public function boot(\Illuminate\Routing\Router $router)
     {
-        app('router')->aliasMiddleware('roles', \App\Http\Middleware\CheckRole::class);
         $loader = \Illuminate\Foundation\AliasLoader::getInstance();
         $loader->alias('DataTables', Yajra\DataTables\Facades\DataTables::class);
         $this->publishes([
-            __DIR__ . '/../publish/Middleware/' => app_path('Http/Middleware'),
             __DIR__ . '/../publish/migrations/' => database_path('migrations'),
             __DIR__ . '/../publish/Model/' => app_path(),
             __DIR__ . '/../publish/Controllers/' => app_path('Http/Controllers'),

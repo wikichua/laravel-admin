@@ -19,15 +19,19 @@ class LaravelBreadCommand extends Command
     {   
         $refresh = $this->option('refresh');
         try {
-            $this->call('migrate');
+            if ($refresh === 'false') {
+                $this->call('migrate');
+            }
         } catch (\Illuminate\Database\QueryException $e) {
             $this->error($e->getMessage());
             exit();
         }
 
         if (\App::VERSION() >= '5.2') {
-            $this->info("Generating the authentication scaffolding");
-            $this->call('make:auth');
+            if ($refresh === 'false') {
+                $this->info("Generating the authentication scaffolding");
+                $this->call('make:auth',['--force' => true]);
+            }
         }
 
         $this->info("Publishing the assets");
@@ -47,16 +51,17 @@ class LaravelBreadCommand extends Command
             $this->call('migrate');
         }
 
-        $this->info("Adding the routes");
 
-        $routeFile = app_path('Http/routes.php');
-        if (\App::VERSION() >= '5.3') {
-            $routeFile = base_path('routes/web.php');
-        }
+        if ($refresh === 'false') {
+            $this->info("Adding the routes");
+            $routeFile = app_path('Http/routes.php');
+            if (\App::VERSION() >= '5.3') {
+                $routeFile = base_path('routes/web.php');
+            }
 
-        $routes =
+            $routes =
             <<<EOD
-Route::group(['namespace' => 'Admin','prefix' => 'admin', 'middleware' => ['auth', 'roles','can:browse-admin'], 'roles' => 'admin'], function () {
+Route::group(['namespace' => 'Admin','prefix' => 'admin', 'middleware' => ['auth', 'can:browse-admin']], function () {
     Route::get('/', 'AdminController@index');
     Route::resource('/roles', 'RolesController');
     Route::resource('/permissions', 'PermissionsController');
@@ -67,9 +72,12 @@ Route::group(['namespace' => 'Admin','prefix' => 'admin', 'middleware' => ['auth
     Route::resource('/settings', 'SettingsController');\
     Route::get('/generator', ['as' => 'generator.get','uses' => '\Wikichua\LaravelBread\Controllers\BreadController@getGenerator']);
     Route::post('/generator', ['as' => 'generator.post','uses' => '\Wikichua\LaravelBread\Controllers\BreadController@postGenerator']);
+
+    #%%newRoute%%
 });
 EOD;
-        File::append($routeFile, "\n" . $routes);
+            File::append($routeFile, "\n" . $routes);
+        }
         $this->info("Overriding the AuthServiceProvider");
         $contents = File::get(__DIR__ . '/../publish/Providers/AuthServiceProvider.php');
         File::put(app_path('Providers/AuthServiceProvider.php'), $contents);

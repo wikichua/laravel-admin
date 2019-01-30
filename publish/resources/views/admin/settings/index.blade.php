@@ -12,7 +12,14 @@
                             <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%" id="mainTable">
                                 <thead>
                                     <tr>
-                                        <th>Key</th><th>Value</th><th>Usage</th> <th><a href="{{ route('settings.create') }}" class="btn btn-success btn-sm" title="Add New Setting"><i class="fa fa-plus" aria-hidden="true"></i> Add New</a></th>
+                                        <th>Key</th><th>Value</th><th>Usage</th>
+                                        <th>
+                                            @if (auth()->user()->can('add-settings'))
+                                            <a href="{{ route('settings.create') }}" class="btn btn-success btn-sm" title="Add New Setting"><i class="fa fa-plus" aria-hidden="true"></i> Add New</a>
+                                            @else
+                                                Action
+                                            @endif
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>

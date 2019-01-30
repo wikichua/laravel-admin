@@ -9,48 +9,38 @@ use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
-    public function __construct()
-    {
-        
-    }
     public function index(Request $request)
     {
+        $this->authorize('browse-users');
         if($request->ajax()){
             $users = User::latest();
             return datatables($users)->addColumn('action', function ($users) {
-                return '
-                <a href="'.route('users.show',$users->id).'" title="View User" class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                <a href="'.route('users.edit',$users->id).'" title="Edit User" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                <a href="'.route('users.destroy', $users->id).'" title="Delete User" class="deleteBtn btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                ';
+                if (auth()->user()->can('read-users')) {
+                    $act[] = '<a href="'.route('users.show',$users->id).'" title="View User" class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+                }
+                if (auth()->user()->can('edit-users')) {
+                    $act[] = '<a href="'.route('users.edit',$users->id).'" title="Edit User" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                }
+                if (auth()->user()->can('delete-users')) {
+                    $act[] = '<a href="'.route('users.destroy', $users->id).'" title="Delete User" class="deleteBtn btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></a>';
+                }
+                return implode("\n", $act);
             })
             ->toJson();
         }
         return view('admin.users.index');
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return void
-     */
     public function create()
     {
+        $this->authorize('add-users');
         $roles = Role::select('id', 'name', 'label')->get();
         $roles = $roles->pluck('label', 'name');
 
         return view('admin.users.create', compact('roles'));
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     *
-     * @return void
-     */
     public function store(Request $request)
     {
+        $this->authorize('add-users');
         $this->validate(
             $request,
             [
@@ -71,30 +61,16 @@ class UsersController extends Controller
 
         return redirect('admin/users')->with('flash_message', 'User added!');
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     *
-     * @return void
-     */
     public function show($id)
     {
+        $this->authorize('read-users');
         $user = User::findOrFail($id);
 
         return view('admin.users.show', compact('user'));
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     *
-     * @return void
-     */
     public function edit($id)
     {
+        $this->authorize('edit-users');
         $roles = Role::select('id', 'name', 'label')->get();
         $roles = $roles->pluck('label', 'name');
 
@@ -106,17 +82,9 @@ class UsersController extends Controller
 
         return view('admin.users.edit', compact('user', 'roles', 'user_roles'));
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int      $id
-     *
-     * @return void
-     */
     public function update(Request $request, $id)
     {
+        $this->authorize('edit-users');
         $this->validate(
             $request,
             [
@@ -141,16 +109,9 @@ class UsersController extends Controller
 
         return redirect('admin/users')->with('flash_message', 'User updated!');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     *
-     * @return void
-     */
     public function destroy($id)
     {
+        $this->authorize('delete-users');
         User::destroy($id);
 
         return ['flash_message' => 'User deleted!'];

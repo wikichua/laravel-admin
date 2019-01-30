@@ -11,7 +11,10 @@
                     <div class="card-body">
 
                         <a href="{{ url('/admin/permissions') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        @if (auth()->user()->can('edit-permissions'))
                         <a href="{{ url('/admin/permissions/' . $permission->id . '/edit') }}" title="Edit Permission"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                        @endif
+                        @if (auth()->user()->can('delete-permissions'))
                         {!! Form::open([
                             'method' => 'DELETE',
                             'url' => ['/admin/permissions', $permission->id],
@@ -24,9 +27,7 @@
                                     'onclick'=>'return confirm("Confirm delete?")'
                             ))!!}
                         {!! Form::close() !!}
-                        <br/>
-                        <br/>
-
+                        @endif
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>

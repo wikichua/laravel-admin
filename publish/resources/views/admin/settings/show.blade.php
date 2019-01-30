@@ -11,7 +11,10 @@
                     <div class="card-body">
 
                         <a href="{{ route('settings.index') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        @if (auth()->user()->can('edit-settings'))
                         <a href="{{ route('settings.edit',$setting->id) }}" title="Edit Setting"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+                        @endif
+                        @if (auth()->user()->can('delete-settings'))
                         {!! Form::open([
                             'method'=>'DELETE',
                             'url' => route('settings.destroy', $setting->id),
@@ -24,8 +27,7 @@
                                     'onclick'=>'return confirm("Confirm delete?")'
                             ))!!}
                         {!! Form::close() !!}
-                        <br/>
-                        <br/>
+                        @endif
 
                         <div class="table-responsive">
                             <table class="table">

@@ -13,7 +13,14 @@
                             <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%" id="mainTable">
                                 <thead>
                                     <tr>
-                                        <th>ID</th><th>Name</th><th>Label</th><th><a href="{{ route('roles.create') }}" class="btn btn-success btn-sm" title="Add New Role"><i class="fa fa-plus" aria-hidden="true"></i> Add New</a></th>
+                                        <th>ID</th><th>Name</th><th>Label</th>
+                                        <th>
+                                            @if (auth()->user()->can('add-roles'))
+                                            <a href="{{ route('roles.create') }}" class="btn btn-success btn-sm" title="Add New Role"><i class="fa fa-plus" aria-hidden="true"></i> Add New</a>
+                                            @else
+                                                Action
+                                            @endif
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>

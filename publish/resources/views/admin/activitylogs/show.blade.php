@@ -11,6 +11,7 @@
                     <div class="card-body">
 
                         <a href="{{ route('activitylogs.index') }}" title="Back"><button class="btn btn-warning btn-sm"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button></a>
+                        @if (auth()->user()->can('delete-activitylogs'))
                         {!! Form::open([
                             'method'=>'DELETE',
                             'url' => route('activitylogs.destroy', $activitylog->id),
@@ -23,9 +24,7 @@
                                     'onclick'=>'return confirm("Confirm delete?")'
                             ))!!}
                         {!! Form::close() !!}
-                        <br/>
-                        <br/>
-
+                        @endif
                         <div class="table-responsive">
                             <table class="table">
                                 <tbody>

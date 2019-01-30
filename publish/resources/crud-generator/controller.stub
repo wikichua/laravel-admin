@@ -10,48 +10,37 @@ use Illuminate\Http\Request;
 
 class DummyClass extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\View\View
-     */
     public function index(Request $request)
     {
+        $this->authorize('browse-${{crudName}}');
         if($request->ajax()){
             ${{crudName}} = {{modelName}}::latest();
             return datatables(${{crudName}})
                 ->addColumn('action', function (${{crudName}}) {
-                    return '
-                    <a href="'.route('{{crudName}}.show',${{crudName}}->id).'" title="View {{modelName}}" class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                    <a href="'.route('{{crudName}}.edit',${{crudName}}->id).'" title="Edit {{modelName}}" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                    <a href="'.route('{{crudName}}.destroy', ${{crudName}}->id).'" title="Delete {{modelName}}" class="deleteBtn btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                    ';
+                    if (auth()->user()->can('read-{{crudName}}')) {
+                        $act[] = '<a href="'.route('{{crudName}}.show',${{crudName}}->id).'" title="View {{modelName}}" class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i></a>';
+                    }
+                    if (auth()->user()->can('edit-{{crudName}}')) {
+                        $act[] = '<a href="'.route('{{crudName}}.edit',${{crudName}}->id).'" title="Edit {{modelName}}" class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>';
+                    }
+                    if (auth()->user()->can('delete-{{crudName}}')) {
+                        $act[] = '<a href="'.route('{{crudName}}.destroy', ${{crudName}}->id).'" title="Delete {{modelName}}" class="deleteBtn btn btn-danger btn-sm"><i class="fa fa-trash-o" aria-hidden="true"></i></a>';
+                    }
+                    return implode("\n", $act);
                 })
                 ->toJson();
         }
 
         return view('{{viewPath}}{{viewName}}.index');
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\View\View
-     */
     public function create()
     {
+        $this->authorize('add-${{crudName}}');
         return view('{{viewPath}}{{viewName}}.create');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
     public function store(Request $request)
     {
+        $this->authorize('add-${{crudName}}');
         {{validationRules}}
         $requestData = $request->all();
         {{fileSnippet}}
@@ -59,45 +48,23 @@ class DummyClass extends Controller
 
         return redirect()->route('{{viewName}}.index')->with('flash_message', '{{modelName}} added!');
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     *
-     * @return \Illuminate\View\View
-     */
     public function show($id)
     {
+        $this->authorize('read-${{crudName}}');
         ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
 
         return view('{{viewPath}}{{viewName}}.show', compact('{{crudNameSingular}}'));
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     *
-     * @return \Illuminate\View\View
-     */
     public function edit($id)
     {
+        $this->authorize('edit-${{crudName}}');
         ${{crudNameSingular}} = {{modelName}}::findOrFail($id);
 
         return view('{{viewPath}}{{viewName}}.edit', compact('{{crudNameSingular}}'));
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param  int  $id
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
     public function update(Request $request, $id)
     {
+        $this->authorize('edit-${{crudName}}');
         {{validationRules}}
         $requestData = $request->all();
         {{fileSnippet}}
@@ -106,16 +73,9 @@ class DummyClass extends Controller
 
         return redirect()->route('{{viewName}}.index')->with('flash_message', '{{modelName}} updated!');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     */
     public function destroy($id)
     {
+        $this->authorize('delete-${{crudName}}');
         {{modelName}}::destroy($id);
 
         return redirect()->route('{{viewName}}.index')->with('flash_message', '{{modelName}} deleted!');
