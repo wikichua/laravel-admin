@@ -10,7 +10,7 @@
 </div>
 <div class="form-group{{ $errors->has('label') ? ' has-error' : ''}}">
     {!! Form::label('label', 'Permissions: ', ['class' => 'control-label']) !!}
-    {!! Form::select('permissions[]', $permissions, isset($role) ? $role->permissions->pluck('name') : [], ['class' => 'form-control', 'multiple' => true]) !!}
+    {!! Form::select('permissions[]', $permissions, isset($role) ? $role->permissions->pluck('name') : [], ['class' => 'form-control select2', 'multiple' => true]) !!}
     {!! $errors->first('label', '<p class="help-block">:message</p>') !!}
 </div>
 <div class="form-group">
