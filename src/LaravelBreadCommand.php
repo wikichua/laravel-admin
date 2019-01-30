@@ -3,19 +3,21 @@
 namespace Wikichua\LaravelBread;
 
 use File;
+use DB;
 use Illuminate\Console\Command;
 use Symfony\Component\Process\Process;
 
 class LaravelBreadCommand extends Command
 {
-    protected $signature = 'bread:install';
+    protected $signature = 'bread:install {--refresh=false}';
     protected $description = 'Install the Laravel Bread.';
     public function __construct()
     {
         parent::__construct();
     }
     public function handle()
-    {
+    {   
+        $refresh = $this->option('refresh');
         try {
             $this->call('migrate');
         } catch (\Illuminate\Database\QueryException $e) {
@@ -30,14 +32,20 @@ class LaravelBreadCommand extends Command
 
         $this->info("Publishing the assets");
         $this->call('vendor:publish', ['--provider' => 'Wikichua\LaravelBread\LaravelBreadServiceProvider', '--force' => true]);
-        $this->call('vendor:publish', ['--provider' => 'Spatie\Activitylog\ActivitylogServiceProvider', '--tag' => 'migrations']);
+        if ($refresh === 'false') {
+            $this->call('vendor:publish', ['--provider' => 'Spatie\Activitylog\ActivitylogServiceProvider', '--tag' => 'migrations']);
+        }
         $this->call('vendor:publish', ['--provider' => 'Yajra\DataTables\DataTablesServiceProvider', '--force' => true]);
 
         $this->info("Dumping the composer autoload");
         (new Process('composer dump-autoload'))->run();
 
         $this->info("Migrating the database tables into your application");
-        $this->call('migrate');
+        if ($refresh === 'true') {
+            $this->call('migrate:fresh');
+        } else {
+            $this->call('migrate');
+        }
 
         $this->info("Adding the routes");
 

@@ -94,8 +94,8 @@ class CreateRolesPermissionsTables extends Migration
                 ['name' => 'user', 'email' => 'user@user.com', 'password' => bcrypt('user')],
             ]);
             DB::table('roles')->insert([
-                ['name' => 'admin', 'label' => 'Admin']
-                ['name' => 'user', 'label' => 'User']
+                ['name' => 'admin', 'label' => 'Admin'],
+                ['name' => 'user', 'label' => 'User'],
             ]);
             DB::table('role_user')->insert([
                 ['user_id' => 1, 'role_id' => 1],
