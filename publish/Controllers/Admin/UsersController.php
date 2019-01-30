@@ -9,11 +9,10 @@ use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return void
-     */
+    public function __construct()
+    {
+        
+    }
     public function index(Request $request)
     {
         if($request->ajax()){
